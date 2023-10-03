@@ -1,0 +1,17 @@
+.nav_wrap {
+  background: #f6f8fa;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+
+  .nav_item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 3px;
+
+    color: #000;
+    text-decoration: none;
+  }
+}
