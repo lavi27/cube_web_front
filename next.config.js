@@ -2,6 +2,10 @@ const path = require('path');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	reactStrictMode: true,
+	experimental: {
+		appDir: true,
+	},
 	sassOptions: {
 		includePaths: ['./src'],
 		prependData: `@import "~@styles/_varables.scss"; @import "~@styles/_mixins.scss";`,

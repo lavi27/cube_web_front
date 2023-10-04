@@ -19,8 +19,9 @@
 		],
 		"paths": {
 			"@root/*": ["./*"],
-			"@components/*": ["./components/*"],
-			"@assets/*": ["./assets/*"],
+			"@app/*": ["./app/*"],
+			"@components/*": ["./app/_components/*"],
+			"@assets/*": ["./app/_assets/*"],
 			"@styles/*": ["./styles/*"]
 		}
 	},

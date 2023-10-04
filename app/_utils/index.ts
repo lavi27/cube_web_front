@@ -1,3 +1,14 @@
+import { API_URL } from '@root/config.json';
+import moment from 'moment';
+
+const timestampToStr = (timestamp: number) => {
+	return moment.unix(timestamp).format('YYYY.MM.DD HH:mm:ss');
+};
+
+const toStaticURL = (url: string) => {
+	return `${API_URL}/static/${url}`;
+};
+
 const toUriQuery = (values: Record<string, string | number | undefined>) => {
 	const res: string[] = [];
 
@@ -16,4 +27,4 @@ const toUriQuery = (values: Record<string, string | number | undefined>) => {
 	return '?' + res.join('&');
 };
 
-export default toUriQuery;
+export { timestampToStr, toStaticURL, toUriQuery };

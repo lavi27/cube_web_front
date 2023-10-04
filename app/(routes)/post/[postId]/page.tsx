@@ -1,30 +1,38 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from 'next/image'
-import { API_URL } from '@root/config.json';
-import { Post } from '@root/types'
+import { Post } from '@app/_types'
 import styles from "@styles/pages/post.module.scss"
-
+import { useSearchParams } from "next/navigation";
 import HeartFilledSVG from '@assets/heart_filled.svg';
 import HeartOutlineSVG from '@assets/heart_outline.svg';
+import { getPost } from "@app/_api";
+import { toStaticURL } from "@app/_utils";
 
-export default function Comp() {
+type Props = {
+  params: {
+    postId: string;
+  };
+};
+
+export default function Comp({ params: { postId } }: Props) {
   const [post, setPost] = useState<Post>();
   const isLoaded = post !== undefined;
 
-  const query = useQuery();
-  const postId = query.asdf];
-  
   useEffect(() => {
-    getPost(postId)
+    if (!postId) {
+      return
+    }
+
+    getPost(parseInt(postId))
       .then(data => setPost(data))
       .catch(err => {
-        if(err,status == 500) {
+        if (err.status == 500) {
           return
         }
 
-        switch(err.errorType) {
-          
+        switch (err.errorType) {
+
         }
       })
   }, [])
@@ -46,7 +54,7 @@ export default function Comp() {
             </div>
             <span className={styles.user_userName}>{isLoaded ? post.userName : ''}</span>
           </div>
-          <span className={styles.date}>{isLoaded ? post.date : ''}</span>
+          <span className={styles.date}>{isLoaded ? post.createDate : ''}</span>
         </div>
         <div className={styles.post_content}>{isLoaded ? post.content : ''}</div>
         <div className={styles.post_footer}>
@@ -56,7 +64,7 @@ export default function Comp() {
                 true ? <HeartFilledSVG /> : <HeartOutlineSVG />
               }
             </div>
-            <span>{isLoaded ? post.like : ''}</span>
+            <span>{isLoaded ? post.likeCount : ''}</span>
           </div>
         </div>
       </div>

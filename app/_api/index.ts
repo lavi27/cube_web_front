@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { User, Post } from '@root/types';
+import { User, Post } from '@app/_types';
 import { API_URL } from '@root/config.json';
-import { toUriQuery } from '.';
+import { toUriQuery } from '../_utils';
 
 const apiConn = axios.create({
 	baseURL: API_URL + '/api',
