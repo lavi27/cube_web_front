@@ -12,7 +12,11 @@ export default function Comp() {
   const isLoad = posts !== undefined;
 
   useEffect(() => {
-    getSearch().then(data => setPosts(data))
+    getSearch()
+      .then(data => setPosts(data))
+      .catch(err => {
+
+      })
   }, [])
 
   return (
@@ -21,6 +25,7 @@ export default function Comp() {
         isLoad ?
           posts.map((post, index) => {
             return (
+              <Post data={post} key={index} />
               <div className={styles.post} key={index}>
                 <div className={styles.post_header}>
                   <div className={styles.user_wrap}>

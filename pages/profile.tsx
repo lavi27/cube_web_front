@@ -3,113 +3,97 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from 'next/image'
 import { Profile } from '@root/types'
-
+import styles from "@styles/pages/profile"
 
 export default function Comp() {
   const [profile, setProfile] = useState<Profile>();
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>();
   const [isFollowing, setIsFollowing] = useState(false);
+  const isLoaded = profile !== undefined && posts !== undefined;
 
-  const follow = () => {
-    axios.post(getEnv().API_URL + '/api/breeds/list/all')
-      .then(res => res.data)
-      .then(data => {
-        setIsFollowing(!isFollowing);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+  const router = useRouter();
+  const userId = router.qwe];
+
+  const submitFollow = () => {
+    
   }
 
   useEffect(() => {
-    axios.get(getEnv().API_URL + '/api/breeds/list/all')
-      .then(res => res.data)
-      .then(data => {
-        setProfile(data);
-      })
-      .catch(error => {
-        console.log(error);
+    getSearch(10, userId, undefined)
+      .then(res => setPosts(res))
+      .catch(err => {
+        if(err.status == 500) {
+          return
+        }
+
+        switch(err.errorType) {
+          case 1: {
+            break
+          }
+        }
       })
 
-    axios.get(getEnv().API_URL + '/api/home')
-      .then(res => res.data)
-      .then(data => {
-        setPosts(data.post);
-      })
-      .catch(error => {
-        console.log(error);
+    getProfile(userId)
+      .then(res => setProfile(res))
+      .catch(err => {
+        if(err.status == 500) {
+          return
+        }
+
+        switch(err.errorType) {
+          case 1: {
+            break 
+          }
+        }
       })
   }, [])
 
   return (
-    <div className="home_wrap">
-      {
-        profile ?
-          <div className="profile_wrap">
-            <div className="profile_header">
-              <div className="profile_icon_wrap">
-                <Image
-                  src={profile.profileIconSrc}
-                  width={30}
-                  height={30}
-                  alt="UserIcon"
-                />
-              </div>
-              <div className="profile_name">{profile.username}</div>
-              <div className={`profile_followBtn ${isFollowing ? 'active' : ''}`} onClick={follow}>
-                {isFollowing ? '팔로우' : '언팔로우'}
-              </div>
-              <div className="profile_posts_wrap">
-                <i>포스트 수</i>
-                <div>{profile.postCount}</div>
-              </div>
-              <div className="profile_follower_wrap">
-                <i>팔로워 수</i>
-                <div>{profile.followerCount}</div>
-              </div>
-              <div className="profile_following_wrap">
-                <i>팔로잉 수</i>
-                <div>{profile.followingCount}</div>
-              </div>
-            </div>
-            {
-              posts.map((post) => {
-                return (<></>);
-              })
-            }
-          </div>
-          :
-          <div className="post_skeleton">
-            <div className="post">
-              <div className="post_header">
-                <div className="user_wrap">
-                  <div className="user_icon_wrap">
+          <div className={styles.profile_wrap}>
+            <div className={`${styles.profile} ${!isLoaded ? styles.skeleton : ""}`}>
+              <div className={styles.profile_row}>
+                <div className={styles.user}>
+                  <div className={styles.user_icon_wrap}>
+                  {
+                    isLoaded ?
+                    <Image
+                      src={toStaticURL(`userIcon/${post.userId}.webp`)}
+                      width={30}
+                      height={30}
+                      alt="UserIcon"
+                    />
+                    : ""
+                  }
                   </div>
-                  <span className="user_userName"></span>
+                  <div className={styles.user_name}>{isLoaded ? profile.username : ""}</div>
+                </div>
+                
+                <div className={`${styles.profile_followBtn} ${isFollowing ? styles.active : ''}`} onClick={submitFollow}>
+                  {isFollowing ? '팔로우' : '언팔로우'}
                 </div>
               </div>
-              <div className="post_content"></div>
-              <div className="post_footer">
-                <div className="like_wrap">
+              <div className={styles.profile_row}>
+                <div className={styles.count}>
+                  <i>포스트 수</i>
+                  <div>{isLoaded ? profile.postCount : ""}</div>
+                </div>
+                <div className={styles.count}>
+                  <i>팔로워 수</i>
+                  <div>{isLoaded ? profile.followerCount : ""}</div>
+                </div>
+                <div className={styles.count}>
+                  <i>팔로잉 수</i>
+                  <div>{isLoaded ? profile.followingCount : ""}</div>
                 </div>
               </div>
             </div>
-            <div className="post">
-              <div className="post_header">
-                <div className="user_wrap">
-                  <div className="user_icon_wrap">
-                  </div>
-                  <span className="user_userName"></span>
-                </div>
-              </div>
-              <div className="post_content"></div>
-              <div className="post_footer">
-                <div className="like_wrap">
-                </div>
-              </div>
+            <div className={styles.posts}>
+              {
+                posts.map((post, index) => {
+                  return <Post data={post} key={index} />;
+                })
+              }
             </div>
           </div>
-      }
-    </div>
   )
 }

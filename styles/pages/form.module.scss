@@ -1,0 +1,53 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+
+    h3 {
+        font-size: 25px;
+        font-weight: 600;
+    }
+
+    .form_inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        input {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px 5px;
+            width: 100%;
+            font-size: 20px;
+        }
+    }
+
+    .form_bottom {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+
+        span {
+            font-size: 13px;
+            font-weight: 400;
+            color: #777;
+
+            a {
+                text-decoration: none;
+                color: #77e;
+            }
+        }
+    }
+
+    .submitBtn {
+        width: 100%;
+        padding: 20px 10px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        background: #77e;
+    }
+}

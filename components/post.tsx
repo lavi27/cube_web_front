@@ -1,12 +1,13 @@
 import { Post } from '@root/types';
 import Image from 'next/image'
+import styles from "@styles/components/post.module.scss"
 
 import HeartFilledSVG from '@assets/heart_filled.svg';
 import HeartOutlineSVG from '@assets/heart_outline.svg';
 
-export default function comp({ userIconSrc, userName, date, content, like }: Post) {
+export default function comp(data: Post, isSkeleton: boolean) {
   return (
-    <div className="post">
+    <div className={styles.post}>
       <div className="post_header">
         <div className="user_wrap">
           <div className="user_icon_wrap">
