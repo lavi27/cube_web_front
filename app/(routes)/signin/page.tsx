@@ -1,3 +1,4 @@
+'use client'
 import { postSignin } from "@app/_api";
 import styles from "@styles/pages/form.module.scss";
 import Link from "next/link";
@@ -21,10 +22,6 @@ export default function Comp() {
       redirect(".")
     })
       .catch(err => {
-        if (err.status == 500) {
-          return
-        }
-
         switch (err.errorType) {
           case 1: {
             break;

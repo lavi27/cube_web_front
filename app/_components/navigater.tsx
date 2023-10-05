@@ -1,11 +1,17 @@
+"use client"
 import Image from 'next/image'
 import Link from "next/link";
 import styles from '@styles/components/navigater.module.scss';
+import { usePathname } from 'next/navigation';
 
-export default function comp() {
+export default function Comp() {
+  const router = usePathname();
+
+  const currentNav = "/" + router.split('/')[1];
+
   const navList = [
-    { dir: "/", name: "홈", iconSrc: "/next.svg" },
-    { dir: "/", name: "프로필", iconSrc: "/next.svg" },
+    { dir: "/", name: "홈", iconSrc: "/icon/home.svg" },
+    { dir: "/profile", name: "프로필", iconSrc: "/icon/profile.svg" },
   ]
 
   return (
@@ -13,17 +19,15 @@ export default function comp() {
       {
         navList.map(({ dir, name, iconSrc }, index) => {
           return (
-            <div key={index}>
-              <Link href={dir} className={styles.nav_item}>
-                <Image
-                  src={iconSrc}
-                  width={30}
-                  height={30}
-                  alt="navIcon"
-                />
-                <div>{name}</div>
-              </Link>
-            </div>
+            <Link href={dir} key={index} className={`${styles.nav_item} ${dir == currentNav ? styles.highlight : ""}`}>
+              <Image
+                src={iconSrc}
+                width={20}
+                height={20}
+                alt="navIcon"
+              />
+              <div>{name}</div>
+            </Link>
           )
         })
       }

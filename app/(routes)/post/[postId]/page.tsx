@@ -1,11 +1,10 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+'use client'
+import { useCallback, useEffect, useState } from "react";
 import Image from 'next/image'
 import { Post } from '@app/_types'
 import styles from "@styles/pages/post.module.scss"
-import { useSearchParams } from "next/navigation";
-import HeartFilledSVG from '@assets/heart_filled.svg';
-import HeartOutlineSVG from '@assets/heart_outline.svg';
+import HeartFilledSVG from '@assets/icon/heart_filled.svg';
+import HeartOutlineSVG from '@assets/icon/heart_outline.svg';
 import { getPost } from "@app/_api";
 import { toStaticURL } from "@app/_utils";
 
@@ -19,23 +18,21 @@ export default function Comp({ params: { postId } }: Props) {
   const [post, setPost] = useState<Post>();
   const isLoaded = post !== undefined;
 
-  useEffect(() => {
-    if (!postId) {
-      return
-    }
+  const fetchData = useCallback(async () => {
+    if (!postId) return;
 
     getPost(parseInt(postId))
       .then(data => setPost(data))
       .catch(err => {
-        if (err.status == 500) {
-          return
-        }
-
         switch (err.errorType) {
 
         }
       })
-  }, [])
+  }, [postId])
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData])
 
   return (
     <div className={styles.post_wrap}>

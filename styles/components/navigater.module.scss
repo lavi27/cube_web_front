@@ -1,17 +1,33 @@
 .nav_wrap {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
   background: #f6f8fa;
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 10px;
+  padding: 5px;
+  gap: 5px;
 
   .nav_item {
     display: flex;
     align-items: center;
     flex-direction: column;
     gap: 3px;
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
 
-    color: #000;
+    &.highlight {
+      background: #0001;
+    }
+
+    color: #555;
     text-decoration: none;
+
+    div {
+      font-size: 13px;
+    }
   }
 }

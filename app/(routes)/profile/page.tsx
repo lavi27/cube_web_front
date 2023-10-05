@@ -7,17 +7,13 @@ import { getSearch, getUser } from "@root/app/_api";
 import { toStaticURL } from "@app/_utils";
 import Post from "@root/app/_components/post";
 
-type Props = {
-  params: {
-    userId: string;
-  };
-};
-
-export default function Comp({ params: { userId } }: Props) {
+export default function Comp() {
   const [profile, setProfile] = useState<User>();
   const [posts, setPosts] = useState<PostType[]>();
   const [isFollowing, setIsFollowing] = useState(false);
   const isLoaded = profile !== undefined && posts !== undefined;
+
+  const userId = "1";
 
   const submitFollow = () => {
 
@@ -67,10 +63,6 @@ export default function Comp({ params: { userId } }: Props) {
               }
             </div>
             <div className={styles.user_name}>{isLoaded ? profile.userName : ""}</div>
-          </div>
-
-          <div className={`${styles.profile_followBtn} ${isFollowing ? styles.active : ''}`} onClick={submitFollow}>
-            {isFollowing ? '팔로우' : '언팔로우'}
           </div>
         </div>
         <div className={styles.profile_row}>

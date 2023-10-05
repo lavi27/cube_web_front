@@ -1,4 +1,4 @@
-import { API_URL } from '@root/config.json';
+import CONFIG from '@root/config.json';
 import moment from 'moment';
 
 const timestampToStr = (timestamp: number) => {
@@ -6,7 +6,7 @@ const timestampToStr = (timestamp: number) => {
 };
 
 const toStaticURL = (url: string) => {
-	return `${API_URL}/static/${url}`;
+	return `${CONFIG.API_URL}/static/${url}`;
 };
 
 const toUriQuery = (values: Record<string, string | number | undefined>) => {

@@ -7,32 +7,30 @@
   gap: 10px;
 
   &.skeleton {
-    .post {
-      .post_header {
-        .user_wrap {
-          .user_icon_wrap {
-            @include skeleton
-          }
-
-          .user_userName {
-            @include skeleton
-          }
+    .post_header {
+      .user_wrap {
+        .user_icon_wrap {
+          @include skeleton
         }
 
-        .date {
+        .user_userName {
           @include skeleton
         }
       }
 
-      .post_content {
-        @include skeleton;
+      .date {
+        @include skeleton
       }
+    }
 
-      .post_footer {
-        .like_wrap {
-          .like_count {
-            @include skeleton
-          }
+    .post_content {
+      @include skeleton;
+    }
+
+    .post_footer {
+      .like_wrap {
+        .like_count {
+          @include skeleton
         }
       }
     }
@@ -81,11 +79,29 @@
     .like_wrap {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 5px;
 
       .like_icon_wrap {
         width: 25px;
         height: 25px;
+        border-radius: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: #e42a2a1e;
+
+          svg {
+            color: #f61e1e;
+          }
+        }
+
+        svg {
+          color: #484848;
+          width: 17px;
+          height: 17px;
+        }
       }
 
       .like_count {

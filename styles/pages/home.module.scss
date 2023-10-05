@@ -1,5 +1,9 @@
 .home_wrap {
-  padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px 30px;
   height: 100%;
   box-sizing: border-box;
+  overflow-y: auto;
 }

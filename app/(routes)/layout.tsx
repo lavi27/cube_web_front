@@ -1,3 +1,4 @@
+'use client'
 import styles from '@styles/layout.module.scss';
 import Header from '@components/header';
 import Navigater from '@components/navigater';
@@ -25,6 +26,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             body {
               margin: 0px;
               padding: 0px;
+            }
+
+            main {
+              padding: 60px 0px;
+              box-sizing: border-box;
             }
           `
               }

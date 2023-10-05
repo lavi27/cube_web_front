@@ -1,3 +1,4 @@
+'use client'
 import { useEffect, useState } from "react";
 import styles from "@styles/pages/home.module.scss"
 import { getSearch } from "@app/_api";
@@ -12,10 +13,6 @@ export default function Comp() {
     getSearch()
       .then(data => setPosts(data))
       .catch(err => {
-        if (err.status == 500) {
-          return
-        }
-
         switch (err.errorType) {
           case 1: {
 
