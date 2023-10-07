@@ -6,7 +6,7 @@ import styles from "@styles/pages/post.module.scss"
 import HeartFilledSVG from '@assets/icon/heart_filled.svg';
 import HeartOutlineSVG from '@assets/icon/heart_outline.svg';
 import { getPost } from "@app/_api";
-import { toStaticURL } from "@app/_utils";
+import { timestampToStr, toStaticURL } from "@app/_utils";
 
 type Props = {
   params: {
@@ -43,22 +43,22 @@ export default function Comp({ params: { postId } }: Props) {
               {isLoaded ?
                 <Image
                   src={toStaticURL(`userIcon/${post.userId}.webp`)}
-                  width={30}
-                  height={30}
-                  alt="UserIcon"
+                  width={25}
+                  height={25}
+                  alt=""
                 />
                 : ''}
             </div>
             <span className={styles.user_userName}>{isLoaded ? post.userName : ''}</span>
           </div>
-          <span className={styles.date}>{isLoaded ? post.createDate : ''}</span>
+          <span className={styles.date}>{isLoaded ? timestampToStr(post.createDate) : ''}</span>
         </div>
         <div className={styles.post_content}>{isLoaded ? post.content : ''}</div>
         <div className={styles.post_footer}>
           <div className={styles.like_wrap}>
-            <div className={styles.likeIcon_wrap}>
+            <div className={styles.like_icon_wrap}>
               {
-                true ? <HeartFilledSVG /> : <HeartOutlineSVG />
+                false ? <HeartFilledSVG /> : <HeartOutlineSVG />
               }
             </div>
             <span>{isLoaded ? post.likeCount : ''}</span>

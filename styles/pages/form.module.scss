@@ -1,53 +1,64 @@
 .form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 40px 18px;
+  height: 100%;
+  box-sizing: border-box;
+
+  h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0px;
+    color: #333;
+  }
+
+  .form_inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+
+    input {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 12px 18px;
+      box-sizing: border-box;
+      width: 100%;
+      font-size: 15px;
+    }
+  }
+
+  .form_bottom {
+    margin-top: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
+    width: 100%;
 
-    h3 {
-        font-size: 25px;
-        font-weight: 600;
+    span {
+      font-size: 14px;
+      font-weight: 400;
+      color: #777;
+
+      a {
+        text-decoration: none;
+        color: rgb(46, 101, 229);
+      }
     }
+  }
 
-    .form_inputs {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-
-        input {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px 5px;
-            width: 100%;
-            font-size: 20px;
-        }
-    }
-
-    .form_bottom {
-        margin-top: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-
-        span {
-            font-size: 13px;
-            font-weight: 400;
-            color: #777;
-
-            a {
-                text-decoration: none;
-                color: #77e;
-            }
-        }
-    }
-
-    .submitBtn {
-        width: 100%;
-        padding: 20px 10px;
-        font-size: 18px;
-        font-weight: 600;
-        border-radius: 5px;
-        background: #77e;
-    }
+  .submitBtn {
+    text-align: center;
+    width: 100%;
+    padding: 15px 0px;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    background: rgb(46, 101, 229);
+    color: #eee;
+  }
 }

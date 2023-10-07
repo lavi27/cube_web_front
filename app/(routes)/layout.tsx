@@ -27,11 +27,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               margin: 0px;
               padding: 0px;
             }
-
-            main {
-              padding: 60px 0px;
-              box-sizing: border-box;
-            }
           `
               }
             </style>

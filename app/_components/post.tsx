@@ -19,10 +19,10 @@ export default function Comp({ data, skeleton }: { data: Post | null, skeleton?:
             {
               isLoaded ?
                 <Image
-                  src={toStaticURL(data.userId.toString())}
-                  width={30}
-                  height={30}
-                  alt="UserIcon"
+                  src={toStaticURL(`userIcon/${data.userId.toString()}.png`)}
+                  width={25}
+                  height={25}
+                  alt=""
                 />
                 : ""
             }
@@ -36,7 +36,7 @@ export default function Comp({ data, skeleton }: { data: Post | null, skeleton?:
         <div className={styles.like_wrap}>
           <div className={styles.like_icon_wrap}>
             {
-              true && isLoaded ?
+              false && isLoaded ?
                 <HeartFilledSVG />
                 : <HeartOutlineSVG />
             }

@@ -6,6 +6,7 @@ import { toUriQuery } from '@app/_utils';
 const apiConn = !CONFIG.IS_UI_DEBUG
 	? axios.create({
 			baseURL: CONFIG.API_URL + '/api',
+			withCredentials: true,
 	  })
 	: undefined;
 
@@ -30,7 +31,7 @@ export const getPost = async (postId: number): Promise<Post> => {
 		postId: postId,
 	});
 
-	return await apiConn?.get(`/post${query}`).then((res) => res.data);
+	return await apiConn?.get(`/post/${query}`).then((res) => res.data);
 };
 
 export const getSearch = async (
@@ -44,7 +45,7 @@ export const getSearch = async (
 		length: length,
 	});
 
-	return await apiConn?.get(`/post/search${query}`).then((res) => res.data);
+	return await apiConn?.get(`/post/search/${query}`).then((res) => res.data);
 };
 
 export const postPost = async (content: string): Promise<null> => {
@@ -56,7 +57,7 @@ export const getUser = async (userId: number): Promise<User> => {
 		userId: userId,
 	});
 
-	return await apiConn?.get(`/user${query}`).then((res) => res.data);
+	return await apiConn?.get(`/user/${query}`).then((res) => res.data);
 };
 
 export const postSignin = async (
@@ -68,7 +69,7 @@ export const postSignin = async (
 		userPassword: userPw,
 	});
 
-	return await apiConn?.get(`/user/signin${query}`).then((res) => res.data);
+	return await apiConn?.get(`/user/signin/${query}`).then((res) => res.data);
 };
 
 export const postSignup = async (
@@ -80,5 +81,5 @@ export const postSignup = async (
 		userPassword: userPw,
 	});
 
-	return await apiConn?.get(`/user/signup${query}`).then((res) => res.data);
+	return await apiConn?.get(`/user/signup/${query}`).then((res) => res.data);
 };

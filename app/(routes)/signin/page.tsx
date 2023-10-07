@@ -44,12 +44,12 @@ export default function Comp() {
   }
 
   return (
-    <div className={styles.form_wrap}>
+    <div className={styles.form}>
       <h3>로그인</h3>
 
       <div className={styles.form_inputs}>
-        <input type="text" value={id} onChange={(e) => { setId(e.currentTarget.value) }}></input>
-        <input type="text" value={pw} onChange={(e) => { setPw(e.currentTarget.value) }}></input>
+        <input type="text" placeholder="아이디" value={id} onChange={(e) => { setId(e.currentTarget.value) }}></input>
+        <input type="text" placeholder="비밀번호" value={pw} onChange={(e) => { setPw(e.currentTarget.value) }}></input>
       </div>
 
       <div className={styles.form_bottom}>

@@ -61,7 +61,7 @@ export default function Comp({ params: { userId } }: Props) {
                     src={toStaticURL(`userIcon/${profile.userId}.webp`)}
                     width={30}
                     height={30}
-                    alt="UserIcon"
+                    alt=""
                   />
                   : ""
               }
@@ -73,7 +73,7 @@ export default function Comp({ params: { userId } }: Props) {
             {isFollowing ? '팔로우' : '언팔로우'}
           </div>
         </div>
-        <div className={styles.profile_row}>
+        <div className={`${styles.profile_row}`}>
           <div className={styles.count}>
             <i>포스트 수</i>
             <div>{isLoaded ? profile.postCount : ""}</div>

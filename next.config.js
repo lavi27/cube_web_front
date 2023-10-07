@@ -1,4 +1,7 @@
 const path = require('path');
+const fs = require('fs');
+
+const CONFIG = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,6 +12,14 @@ const nextConfig = {
 	sassOptions: {
 		includePaths: ['./src'],
 		prependData: `@import "~@styles/_varables.scss"; @import "~@styles/_mixins.scss";`,
+	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'http',
+				hostname: CONFIG.HOST_NAME,
+			},
+		],
 	},
 	webpack(config) {
 		// Grab the existing rule that handles SVG imports

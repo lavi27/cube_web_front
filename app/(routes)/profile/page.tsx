@@ -57,7 +57,7 @@ export default function Comp() {
                     src={toStaticURL(`userIcon/${profile.userId}.webp`)}
                     width={30}
                     height={30}
-                    alt="UserIcon"
+                    alt=""
                   />
                   : ""
               }

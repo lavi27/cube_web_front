@@ -1,0 +1,134 @@
+.post {
+  padding: 25px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+
+  &.skeleton {
+    .post_header {
+      .user_wrap {
+        .user_icon_wrap {
+          @include skeleton
+        }
+
+        .user_userName {
+          @include skeleton
+        }
+      }
+
+      .date {
+        @include skeleton;
+        width: 105px;
+      }
+    }
+
+    .post_content {
+      @include skeleton;
+      height: 100px;
+    }
+
+    .post_footer {
+      .like_wrap {
+        .like_count {
+          @include skeleton;
+          width: 30px;
+          height: 1rem;
+        }
+      }
+    }
+  }
+
+  .post_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .user_wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .user_icon_wrap {
+        width: 25px;
+        height: 25px;
+        border-radius: 100px;
+        overflow: hidden;
+        position: relative;
+
+        img {
+          position: absolute;
+          left: 0px;
+          top: 0px;
+        }
+      }
+
+      .user_userName {
+        width: 100px;
+        height: 1rem;
+        font-size: 15px;
+        color: #222;
+      }
+    }
+
+    .date {
+      height: 1rem;
+      line-height: 1rem;
+      font-size: 11px;
+      color: #555;
+    }
+  }
+
+  .post_content {
+    width: 100%;
+    height: auto;
+    padding: 5px 15px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  .post_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .like_wrap {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .like_icon_wrap {
+        width: 25px;
+        height: 25px;
+        border-radius: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f6f6f6;
+
+        &:hover {
+          background: #fa313127;
+
+          svg {
+            color: #fd2121;
+          }
+        }
+
+        svg {
+          color: #484848;
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .like_count {
+        display: block;
+        font-size: 15px;
+        color: #555;
+      }
+    }
+  }
+}

@@ -10,16 +10,16 @@ export default function Comp() {
         <Link href="./search">
           <Image
             src={"/icon/search.svg"}
-            width={22}
-            height={22}
+            width={20}
+            height={20}
             alt="Logo"
           />
         </Link>
         <Link href="./setting">
           <Image
             src={"/icon/setting.svg"}
-            width={22}
-            height={22}
+            width={20}
+            height={20}
             alt="Logo"
           />
         </Link>

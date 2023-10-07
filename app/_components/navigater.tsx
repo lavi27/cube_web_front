@@ -22,8 +22,8 @@ export default function Comp() {
             <Link href={dir} key={index} className={`${styles.nav_item} ${dir == currentNav ? styles.highlight : ""}`}>
               <Image
                 src={iconSrc}
-                width={20}
-                height={20}
+                width={18}
+                height={18}
                 alt="navIcon"
               />
               <div>{name}</div>
