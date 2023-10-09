@@ -4,8 +4,9 @@ import Image from 'next/image'
 import { Post as PostType, User } from '@root/app/_types'
 import styles from "@styles/pages/profile.module.scss"
 import { getSearch, getUser } from "@root/app/_api";
-import { toStaticURL } from "@app/_utils";
+import { intToCompact, toStaticURL } from "@app/_utils";
 import Post from "@root/app/_components/post";
+import { useRouter } from "next/navigation";
 
 type Props = {
   params: {
@@ -17,7 +18,9 @@ export default function Comp({ params: { userId } }: Props) {
   const [profile, setProfile] = useState<User>();
   const [posts, setPosts] = useState<PostType[]>();
   const [isFollowing, setIsFollowing] = useState(false);
+
   const isLoaded = profile !== undefined && posts !== undefined;
+  const router = useRouter();
 
   const submitFollow = () => {
 
@@ -27,8 +30,13 @@ export default function Comp({ params: { userId } }: Props) {
     getSearch(10, parseInt(userId), undefined)
       .then(res => setPosts(res))
       .catch(err => {
-        switch (err.errorType) {
+        switch (err.errorCode) {
           case 1: {
+            alert("올바르지 않은 요청입니다")
+            break
+          }
+          case 2: {
+            alert("글을 찾을 수 없습니다")
             break
           }
         }
@@ -37,9 +45,14 @@ export default function Comp({ params: { userId } }: Props) {
     getUser(parseInt(userId))
       .then(res => setProfile(res))
       .catch(err => {
-        switch (err.errorType) {
+        switch (err.errorCode) {
           case 1: {
-            break
+            alert("올바르지 않은 주소입니다")
+            router.push("/");
+          }
+          case 2: {
+            alert("유저를 찾을 수 없습니다")
+            router.push("/");
           }
         }
       })
@@ -76,15 +89,15 @@ export default function Comp({ params: { userId } }: Props) {
         <div className={`${styles.profile_row}`}>
           <div className={styles.count}>
             <i>포스트 수</i>
-            <div>{isLoaded ? profile.postCount : ""}</div>
+            <div>{isLoaded ? intToCompact(profile.postCount) : ""}</div>
           </div>
           <div className={styles.count}>
             <i>팔로워 수</i>
-            <div>{isLoaded ? profile.followerCount : ""}</div>
+            <div>{isLoaded ? intToCompact(profile.followerCount) : ""}</div>
           </div>
           <div className={styles.count}>
             <i>팔로잉 수</i>
-            <div>{isLoaded ? profile.followingCount : ""}</div>
+            <div>{isLoaded ? intToCompact(profile.followingCount) : ""}</div>
           </div>
         </div>
       </div>

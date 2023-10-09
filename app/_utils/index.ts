@@ -1,15 +1,29 @@
 import CONFIG from '@root/config.json';
 import moment from 'moment';
+import 'moment/locale/ko';
 
-const timestampToStr = (timestamp: number) => {
-	return moment.unix(timestamp).format('YYYY.MM.DD HH:mm:ss');
+moment.locale('ko');
+
+// return moment.unix(timestamp).format('YYYY.MM.DD HH:mm:ss');
+
+export const timestampFromNow = (timestamp: number) => {
+	return moment.unix(timestamp).fromNow();
 };
 
-const toStaticURL = (url: string) => {
+export const intToCompact = (number: number) => {
+	return new Intl.NumberFormat('ko-KR', {
+		notation: 'compact',
+		maximumFractionDigits: 1,
+	}).format(number);
+};
+
+export const toStaticURL = (url: string) => {
 	return `${CONFIG.API_URL}/static/${url}`;
 };
 
-const toUriQuery = (values: Record<string, string | number | undefined>) => {
+export const toUriQuery = (
+	values: Record<string, string | number | undefined>
+) => {
 	const res: string[] = [];
 
 	Object.keys(values).forEach((key) => {
@@ -26,5 +40,3 @@ const toUriQuery = (values: Record<string, string | number | undefined>) => {
 
 	return '?' + res.join('&');
 };
-
-export { timestampToStr, toStaticURL, toUriQuery };

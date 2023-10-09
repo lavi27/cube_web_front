@@ -13,9 +13,13 @@ export default function Comp() {
     getSearch()
       .then(data => setPosts(data))
       .catch(err => {
-        switch (err.errorType) {
+        switch (err.errorCode) {
           case 1: {
-
+            alert("올바르지 않은 요청입니다")
+            break
+          }
+          case 2: {
+            alert("글을 찾을 수 없습니다")
             break
           }
         }

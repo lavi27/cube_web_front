@@ -13,19 +13,25 @@ const apiConn = !CONFIG.IS_UI_DEBUG
 apiConn?.interceptors.response.use(
 	(res) => res,
 	(err) => {
-		if (typeof err.response === 'undefined') {
-			console.error(err);
-			alert('알수없는 통신 에러가 발생했습니다.');
-		} else if (err.status == 500) {
+		if (err.status == 500) {
 			console.error(err);
 			alert('서버 통신 에러가 발생했습니다.');
 			return;
+		} else if (typeof err.response === 'undefined') {
+			console.error(err);
+			alert('알수없는 통신 에러가 발생했습니다.');
 		}
 
-		return Promise.reject(err);
+		return Promise.reject(err.response.data);
 	}
 );
 
+//ANCHOR - Account
+export const getAccount = async (): Promise<number> => {
+	return await apiConn?.get(`/account/`).then((res) => res.data);
+};
+
+//ANCHOR - Post
 export const getPost = async (postId: number): Promise<Post> => {
 	const query = toUriQuery({
 		postId: postId,
@@ -52,6 +58,7 @@ export const postPost = async (content: string): Promise<null> => {
 	return await apiConn?.post('/post', { content }).then((res) => res.data);
 };
 
+//ANCHOR - User
 export const getUser = async (userId: number): Promise<User> => {
 	const query = toUriQuery({
 		userId: userId,
@@ -64,22 +71,16 @@ export const postSignin = async (
 	userName: string,
 	userPw: string
 ): Promise<null> => {
-	const query = toUriQuery({
-		userName: userName,
-		userPassword: userPw,
-	});
-
-	return await apiConn?.get(`/user/signin/${query}`).then((res) => res.data);
+	return await apiConn
+		?.post(`/user/signin/`, { userName, userPassword: userPw })
+		.then((res) => res.data);
 };
 
 export const postSignup = async (
 	userName: string,
 	userPw: string
 ): Promise<null> => {
-	const query = toUriQuery({
-		userName: userName,
-		userPassword: userPw,
-	});
-
-	return await apiConn?.get(`/user/signup/${query}`).then((res) => res.data);
+	return await apiConn
+		?.post(`/user/signup/`, { userName, userPassword: userPw })
+		.then((res) => res.data);
 };

@@ -5,14 +5,14 @@ import styles from "@styles/components/post.module.scss"
 import HeartFilledSVG from "@assets/icon/heart_filled.svg"
 import HeartOutlineSVG from "@assets/icon/heart_outline.svg"
 
-import { timestampToStr, toStaticURL } from '@root/app/_utils';
+import { timestampFromNow, intToCompact, toStaticURL } from '@root/app/_utils';
 import Link from 'next/link';
 
 export default function Comp({ data, skeleton }: { data: Post | null, skeleton?: boolean }) {
   const isLoaded = data && !skeleton
 
   return (
-    <Link href={`./post/${data?.postId}`} className={`${styles.post} ${skeleton ? styles.skeleton : ""}`}>
+    <Link href={`/post/${data?.postId}`} className={`${styles.post} ${skeleton ? styles.skeleton : ""}`}>
       <div className={styles.post_header}>
         <div className={styles.user_wrap}>
           <div className={styles.user_icon_wrap}>
@@ -29,7 +29,7 @@ export default function Comp({ data, skeleton }: { data: Post | null, skeleton?:
           </div>
           <span className={styles.user_userName}>{isLoaded ? data.userNickname : ""}</span>
         </div>
-        <span className={styles.date}>{isLoaded ? timestampToStr(data.createDate) : ""}</span>
+        <span className={styles.date}>{isLoaded ? timestampFromNow(data.createDate) : ""}</span>
       </div>
       <div className={styles.post_content}>{isLoaded ? data.content : ""}</div>
       <div className={styles.post_footer}>
@@ -41,7 +41,7 @@ export default function Comp({ data, skeleton }: { data: Post | null, skeleton?:
                 : <HeartOutlineSVG />
             }
           </div>
-          <span className={styles.like_count}>{isLoaded ? data.likeCount : ""}</span>
+          <span className={styles.like_count}>{isLoaded ? intToCompact(data.likeCount) : ""}</span>
         </div>
       </div>
     </Link>

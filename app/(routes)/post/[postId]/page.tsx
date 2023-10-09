@@ -6,7 +6,9 @@ import styles from "@styles/pages/post.module.scss"
 import HeartFilledSVG from '@assets/icon/heart_filled.svg';
 import HeartOutlineSVG from '@assets/icon/heart_outline.svg';
 import { getPost } from "@app/_api";
-import { timestampToStr, toStaticURL } from "@app/_utils";
+import { intToCompact, timestampFromNow, toStaticURL } from "@app/_utils";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Props = {
   params: {
@@ -16,7 +18,9 @@ type Props = {
 
 export default function Comp({ params: { postId } }: Props) {
   const [post, setPost] = useState<Post>();
+
   const isLoaded = post !== undefined;
+  const router = useRouter();
 
   const fetchData = useCallback(async () => {
     if (!postId) return;
@@ -24,11 +28,18 @@ export default function Comp({ params: { postId } }: Props) {
     getPost(parseInt(postId))
       .then(data => setPost(data))
       .catch(err => {
-        switch (err.errorType) {
-
+        switch (err.errorCode) {
+          case 1: {
+            alert("올바르지 않은 요청입니다")
+            router.push("/");
+          }
+          case 2: {
+            alert("글을 찾을 수 없습니다")
+            router.push("/");
+          }
         }
       })
-  }, [postId])
+  }, [postId, router])
 
   useEffect(() => {
     fetchData();
@@ -38,20 +49,22 @@ export default function Comp({ params: { postId } }: Props) {
     <div className={styles.post_wrap}>
       <div className={`${styles.post} ${!isLoaded ? styles.skeleton : ""}`}>
         <div className={styles.post_header}>
-          <div className={styles.user_wrap}>
-            <div className={styles.user_icon_wrap}>
-              {isLoaded ?
-                <Image
-                  src={toStaticURL(`userIcon/${post.userId}.webp`)}
-                  width={25}
-                  height={25}
-                  alt=""
-                />
-                : ''}
+          <Link href={`/profile/${post?.userId}`}>
+            <div className={styles.user_wrap}>
+              <div className={styles.user_icon_wrap}>
+                {isLoaded ?
+                  <Image
+                    src={toStaticURL(`userIcon/${post.userId}.webp`)}
+                    width={25}
+                    height={25}
+                    alt=""
+                  />
+                  : ''}
+              </div>
+              <span className={styles.user_userName}>{isLoaded ? post.userName : ''}</span>
             </div>
-            <span className={styles.user_userName}>{isLoaded ? post.userName : ''}</span>
-          </div>
-          <span className={styles.date}>{isLoaded ? timestampToStr(post.createDate) : ''}</span>
+          </Link>
+          <span className={styles.date}>{isLoaded ? timestampFromNow(post.createDate) : ''}</span>
         </div>
         <div className={styles.post_content}>{isLoaded ? post.content : ''}</div>
         <div className={styles.post_footer}>
@@ -61,7 +74,7 @@ export default function Comp({ params: { postId } }: Props) {
                 false ? <HeartFilledSVG /> : <HeartOutlineSVG />
               }
             </div>
-            <span>{isLoaded ? post.likeCount : ''}</span>
+            <span>{isLoaded ? intToCompact(post.likeCount) : ''}</span>
           </div>
         </div>
       </div>
