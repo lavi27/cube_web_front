@@ -1,0 +1,5 @@
+파일 번들링, 컴프레싱 - ESBuild
+트랜스파일링 - SWC
+타입 체킹 - tsc
+
+tsc isolatedModules: 유형검사 여부

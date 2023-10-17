@@ -5,6 +5,7 @@ import styles from '@styles/components/navigater.module.scss';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { getAccount } from '@app/_api';
+import { useBearStore } from '@app/_utils/store';
 
 export default function Comp() {
   const [navList, setNavList] = useState(
@@ -15,12 +16,15 @@ export default function Comp() {
   );
 
   const router = usePathname();
+  const { setUser } = useBearStore();
 
   const fetchData = useCallback(async () => {
     getAccount()
       .then(res => {
         const tmp = [...navList];
         tmp[1] = { dir: `/profile/${res}`, name: "프로필", iconSrc: "/icon/profile.svg" }
+
+        // setUser(res, 0);
 
         setNavList(tmp);
       })
@@ -31,7 +35,7 @@ export default function Comp() {
           }
         }
       })
-  }, [navList])
+  }, [navList, setUser])
 
   useEffect(() => {
     fetchData();

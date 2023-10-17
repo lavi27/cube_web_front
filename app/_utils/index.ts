@@ -31,7 +31,7 @@ export const toUriQuery = (
 		if (typeof val == 'number') val = val.toString();
 		if (val == undefined) return;
 
-		res.push(`${key}=${val}`);
+		res.push(`${key}=${encodeURIComponent(val)}`);
 	});
 
 	if (res.length == 0) {

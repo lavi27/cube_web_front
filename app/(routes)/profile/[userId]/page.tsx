@@ -3,10 +3,11 @@ import { useCallback, useEffect, useState } from "react";
 import Image from 'next/image'
 import { Post as PostType, User } from '@root/app/_types'
 import styles from "@styles/pages/profile.module.scss"
-import { getSearch, getUser } from "@root/app/_api";
+import { getSearch, getUser, postFollow, postUnfollow } from "@root/app/_api";
 import { intToCompact, toStaticURL } from "@app/_utils";
 import Post from "@root/app/_components/post";
 import { useRouter } from "next/navigation";
+import { useBearStore } from "@root/app/_utils/store";
 
 type Props = {
   params: {
@@ -18,16 +19,32 @@ export default function Comp({ params: { userId } }: Props) {
   const [profile, setProfile] = useState<User>();
   const [posts, setPosts] = useState<PostType[]>();
   const [isFollowing, setIsFollowing] = useState(false);
-
   const isLoaded = profile !== undefined && posts !== undefined;
   const router = useRouter();
+  const store = useBearStore();
 
   const submitFollow = () => {
+    if (!isFollowing) {
+      postFollow(parseInt(userId))
+        .then(() => {
+          setIsFollowing(true);
+        })
+        .catch(err => {
 
+        });
+    } else {
+      postUnfollow(parseInt(userId))
+        .then(() => {
+          setIsFollowing(false);
+        })
+        .catch(err => {
+
+        });
+    }
   }
 
   const fetchData = useCallback(async () => {
-    getSearch(10, parseInt(userId), undefined)
+    getSearch({ userId: parseInt(userId) })
       .then(res => setPosts(res))
       .catch(err => {
         switch (err.errorCode) {
@@ -56,7 +73,7 @@ export default function Comp({ params: { userId } }: Props) {
           }
         }
       })
-  }, [userId])
+  }, [router, userId])
 
   useEffect(() => {
     fetchData();
@@ -82,9 +99,14 @@ export default function Comp({ params: { userId } }: Props) {
             <div className={styles.user_name}>{isLoaded ? profile.userName : ""}</div>
           </div>
 
-          <div className={`${styles.profile_followBtn} ${isFollowing ? styles.active : ''}`} onClick={submitFollow}>
-            {isFollowing ? '팔로우' : '언팔로우'}
-          </div>
+          {
+            isLoaded && store.userId != profile.userId ?
+              <div className={`${styles.profile_followBtn} ${isFollowing ? styles.active : ''}`} onClick={submitFollow}>
+                {isFollowing ? '팔로우' : '언팔로우'}
+              </div>
+              : ""
+          }
+
         </div>
         <div className={`${styles.profile_row}`}>
           <div className={styles.count}>

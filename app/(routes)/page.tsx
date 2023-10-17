@@ -10,7 +10,7 @@ export default function Comp() {
   const isLoaded = posts !== undefined;
 
   useEffect(() => {
-    getSearch()
+    getSearch({})
       .then(data => setPosts(data))
       .catch(err => {
         switch (err.errorCode) {

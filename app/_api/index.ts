@@ -31,48 +31,12 @@ export const getAccount = async (): Promise<number> => {
 	return await apiConn?.get(`/account/`).then((res) => res.data);
 };
 
-//ANCHOR - Post
-export const getPost = async (postId: number): Promise<Post> => {
-	const query = toUriQuery({
-		postId: postId,
-	});
-
-	return await apiConn?.get(`/post/${query}`).then((res) => res.data);
-};
-
-export const getSearch = async (
-	length?: number,
-	userId?: number,
-	dateFrom?: number
-): Promise<Post[]> => {
-	const query = toUriQuery({
-		userId: userId,
-		dateFrom: dateFrom,
-		length: length,
-	});
-
-	return await apiConn?.get(`/post/search/${query}`).then((res) => res.data);
-};
-
-export const postPost = async (content: string): Promise<null> => {
-	return await apiConn?.post('/post', { content }).then((res) => res.data);
-};
-
-//ANCHOR - User
-export const getUser = async (userId: number): Promise<User> => {
-	const query = toUriQuery({
-		userId: userId,
-	});
-
-	return await apiConn?.get(`/user/${query}`).then((res) => res.data);
-};
-
 export const postSignin = async (
 	userName: string,
 	userPw: string
 ): Promise<null> => {
 	return await apiConn
-		?.post(`/user/signin/`, { userName, userPassword: userPw })
+		?.post(`/account/signin/`, { userName, userPassword: userPw })
 		.then((res) => res.data);
 };
 
@@ -81,6 +45,73 @@ export const postSignup = async (
 	userPw: string
 ): Promise<null> => {
 	return await apiConn
-		?.post(`/user/signup/`, { userName, userPassword: userPw })
+		?.post(`/account/signup/`, { userName, userPassword: userPw })
+		.then((res) => res.data);
+};
+
+//ANCHOR - Post
+export const getPost = async (postId: number): Promise<Post> => {
+	const uriQuery = toUriQuery({
+		postId,
+	});
+
+	return await apiConn?.get(`/post/${uriQuery}`).then((res) => res.data);
+};
+
+export const getSearch = async ({
+	length,
+	userId,
+	dateFrom,
+	keywords,
+}: {
+	length?: number;
+	userId?: number;
+	dateFrom?: number;
+	keywords?: string[];
+}): Promise<Post[]> => {
+	const uriQuery = toUriQuery({
+		userId,
+		dateFrom,
+		length,
+		keywords: keywords?.join('_'),
+	});
+
+	return await apiConn?.get(`/post/search/${uriQuery}`).then((res) => res.data);
+};
+
+export const postWrite = async (content: string): Promise<null> => {
+	return await apiConn
+		?.post('/post/write/', { content })
+		.then((res) => res.data);
+};
+
+export const postLike = async (postId: number): Promise<null> => {
+	return await apiConn?.post('/post/like/', { postId }).then((res) => res.data);
+};
+
+export const postUnlike = async (postId: number): Promise<null> => {
+	return await apiConn
+		?.post('/post/unlike/', { postId })
+		.then((res) => res.data);
+};
+
+//ANCHOR - User
+export const getUser = async (userId: number): Promise<User> => {
+	const uriQuery = toUriQuery({
+		userId,
+	});
+
+	return await apiConn?.get(`/user/${uriQuery}`).then((res) => res.data);
+};
+
+export const postFollow = async (userId: number): Promise<null> => {
+	return await apiConn
+		?.post('/user/follow/', { userId })
+		.then((res) => res.data);
+};
+
+export const postUnfollow = async (userId: number): Promise<null> => {
+	return await apiConn
+		?.post('/user/unfollow/', { userId })
 		.then((res) => res.data);
 };

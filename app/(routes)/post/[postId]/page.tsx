@@ -5,7 +5,7 @@ import { Post } from '@app/_types'
 import styles from "@styles/pages/post.module.scss"
 import HeartFilledSVG from '@assets/icon/heart_filled.svg';
 import HeartOutlineSVG from '@assets/icon/heart_outline.svg';
-import { getPost } from "@app/_api";
+import { getPost, postLike } from "@app/_api";
 import { intToCompact, timestampFromNow, toStaticURL } from "@app/_utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,7 +18,6 @@ type Props = {
 
 export default function Comp({ params: { postId } }: Props) {
   const [post, setPost] = useState<Post>();
-
   const isLoaded = post !== undefined;
   const router = useRouter();
 
@@ -45,6 +44,18 @@ export default function Comp({ params: { postId } }: Props) {
     fetchData();
   }, [fetchData])
 
+  const submitLike = () => {
+    if (!isLoaded) return;
+
+    postLike(post.postId)
+      .then(() => {
+
+      })
+      .catch(err => {
+
+      })
+  }
+
   return (
     <div className={styles.post_wrap}>
       <div className={`${styles.post} ${!isLoaded ? styles.skeleton : ""}`}>
@@ -69,7 +80,7 @@ export default function Comp({ params: { postId } }: Props) {
         <div className={styles.post_content}>{isLoaded ? post.content : ''}</div>
         <div className={styles.post_footer}>
           <div className={styles.like_wrap}>
-            <div className={styles.like_icon_wrap}>
+            <div className={styles.like_icon_wrap} onClick={submitLike}>
               {
                 false ? <HeartFilledSVG /> : <HeartOutlineSVG />
               }

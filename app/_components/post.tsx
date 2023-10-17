@@ -7,9 +7,34 @@ import HeartOutlineSVG from "@assets/icon/heart_outline.svg"
 
 import { timestampFromNow, intToCompact, toStaticURL } from '@root/app/_utils';
 import Link from 'next/link';
+import { postLike, postUnlike } from '@app/_api';
+import { useState } from 'react';
 
 export default function Comp({ data, skeleton }: { data: Post | null, skeleton?: boolean }) {
   const isLoaded = data && !skeleton
+  const [isLiked, setIsLiked] = useState(false);
+
+  const submitLike = () => {
+    if (!isLoaded) return;
+
+    if (!isLiked) {
+      postLike(data.postId)
+        .then(() => {
+          setIsLiked(true);
+        })
+        .catch(err => {
+
+        })
+    } else {
+      postUnlike(data.postId)
+        .then(() => {
+          setIsLiked(false);
+        })
+        .catch(err => {
+
+        })
+    }
+  }
 
   return (
     <Link href={`/post/${data?.postId}`} className={`${styles.post} ${skeleton ? styles.skeleton : ""}`}>
@@ -34,7 +59,7 @@ export default function Comp({ data, skeleton }: { data: Post | null, skeleton?:
       <div className={styles.post_content}>{isLoaded ? data.content : ""}</div>
       <div className={styles.post_footer}>
         <div className={styles.like_wrap}>
-          <div className={styles.like_icon_wrap}>
+          <div className={styles.like_icon_wrap} onClick={submitLike}>
             {
               false && isLoaded ?
                 <HeartFilledSVG />
