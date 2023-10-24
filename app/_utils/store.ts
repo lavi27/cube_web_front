@@ -14,6 +14,6 @@ export const useBearStore = create<Store>((set) => ({
 	userName: null,
 	userIconId: null,
 	setUser: (userId, userIconId) => {
-		set(() => ({ userId, userIconId, idIsRoaded: true }));
+		set(() => ({ userId, userIconId, userIsRoaded: true }));
 	},
 }));

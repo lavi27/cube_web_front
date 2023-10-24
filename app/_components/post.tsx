@@ -1,6 +1,5 @@
 'use client'
 import { Post } from '@root/app/_types';
-import Image from 'next/image'
 import styles from "@styles/components/post.module.scss"
 import HeartFilledSVG from "@assets/icon/heart_filled.svg"
 import HeartOutlineSVG from "@assets/icon/heart_outline.svg"
@@ -9,6 +8,7 @@ import { timestampFromNow, intToCompact, toStaticURL } from '@root/app/_utils';
 import Link from 'next/link';
 import { postLike, postUnlike } from '@app/_api';
 import { useState } from 'react';
+import ImageWithFallback from '@components/imageWithFallback';
 
 export default function Comp({ data, skeleton }: { data: Post | null, skeleton?: boolean }) {
   const isLoaded = data && !skeleton
@@ -43,11 +43,12 @@ export default function Comp({ data, skeleton }: { data: Post | null, skeleton?:
           <div className={styles.user_icon_wrap}>
             {
               isLoaded ?
-                <Image
-                  src={toStaticURL(`userIcon/${data.userId.toString()}.png`)}
+                <ImageWithFallback
+                  src={toStaticURL(`userIcon/${data.userId.toString()}.webp`)}
+                  fallbackSrc="/defaultIcon.webp"
                   width={25}
                   height={25}
-                  alt=""
+                  alt={''}
                 />
                 : ""
             }

@@ -1,5 +1,5 @@
 .nav_wrap {
-  position: fixed;
+  position: absolute;
   bottom: 0px;
   left: 0px;
   width: 100%;
@@ -10,6 +10,7 @@
   padding: 5px;
   gap: 5px;
   box-sizing: border-box;
+  z-index: 10;
 
   .nav_item {
     display: flex;

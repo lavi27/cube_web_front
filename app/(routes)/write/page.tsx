@@ -3,9 +3,10 @@ import { useState } from "react";
 import Image from 'next/image'
 import router from "next/router";
 import styles from '@styles/pages/write.module.scss';
-import { toStaticURL } from "@root/app/_utils";
-import { useBearStore } from "@root/app/_utils/store";
-import { postPost } from "@root/app/_api";
+import { toStaticURL } from "@app/_utils";
+import { useBearStore } from "@app/_utils/store";
+import { postWrite } from "@app/_api";
+import ImageWithFallback from "@components/imageWithFallback";
 
 export default function Comp() {
   const [content, setContent] = useState("");
@@ -15,7 +16,7 @@ export default function Comp() {
   const submitWrite = () => {
     if (isDisabled) return;
 
-    postPost(content)
+    postWrite(content)
       .then(() => {
         router.push("/");
       })
@@ -25,25 +26,24 @@ export default function Comp() {
 
   return (
     <div className={styles.write_wrap}>
-      <div className={styles.post_header}>
-        <div className={styles.user_wrap}>
-          <div className={styles.user_icon_wrap}>
-            {store.userIsRoaded ?
-              <Image
-                src={toStaticURL(`userIcon/${store.userIconId}.webp`)}
-                width={25}
-                height={25}
-                alt=""
-              />
-              : ''}
-          </div>
-          <span className={styles.user_userName}>{store.userIsRoaded ? store.userName : ''}</span>
+      <div className={styles.write_top}>
+        <div className={styles.user_icon_wrap}>
+          {store.userIsRoaded ?
+            <ImageWithFallback
+              src={toStaticURL(`userIcon/${store.userIconId}.webp`)}
+              fallbackSrc="/defaultIcon.webp"
+              width={25}
+              height={25}
+              alt=""
+            />
+            : ''}
         </div>
+        <span className={styles.user_userName}>{store.userIsRoaded ? store.userName : ''}</span>
       </div>
 
       <textarea value={content} onChange={(e) => { setContent(e.currentTarget.value) }}></textarea>
 
-      <div>
+      <div className={styles.write_bottom}>
         <button disabled={isDisabled} onClick={submitWrite}>완료하기</button>
       </div>
     </div>

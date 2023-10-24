@@ -1,0 +1,48 @@
+.write_wrap {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 10px;
+  box-sizing: border-box;
+}
+
+.write_top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .user_icon_wrap {
+    width: 25px;
+    height: 25px;
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+    }
+  }
+
+  .user_userName {
+    height: 1rem;
+    font-size: 15px;
+    color: #222;
+  }
+}
+
+.write_wrap textarea {
+  min-height: 150px;
+  // font-size: 18px;
+}
+
+.write_bottom {
+  padding: 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  button {
+    padding: 6px;
+  }
+}

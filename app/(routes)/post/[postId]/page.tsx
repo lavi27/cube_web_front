@@ -9,6 +9,7 @@ import { getPost, postLike } from "@app/_api";
 import { intToCompact, timestampFromNow, toStaticURL } from "@app/_utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ImageWithFallback from "@components/imageWithFallback";
 
 type Props = {
   params: {
@@ -64,11 +65,12 @@ export default function Comp({ params: { postId } }: Props) {
             <div className={styles.user_wrap}>
               <div className={styles.user_icon_wrap}>
                 {isLoaded ?
-                  <Image
+                  <ImageWithFallback
                     src={toStaticURL(`userIcon/${post.userId}.webp`)}
+                    fallbackSrc="/defaultIcon.webp"
                     width={25}
                     height={25}
-                    alt=""
+                    alt=''
                   />
                   : ''}
               </div>

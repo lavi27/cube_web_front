@@ -8,6 +8,7 @@ import { intToCompact, toStaticURL } from "@app/_utils";
 import Post from "@root/app/_components/post";
 import { useRouter } from "next/navigation";
 import { useBearStore } from "@root/app/_utils/store";
+import ImageWithFallback from "@components/imageWithFallback";
 
 type Props = {
   params: {
@@ -19,7 +20,9 @@ export default function Comp({ params: { userId } }: Props) {
   const [profile, setProfile] = useState<User>();
   const [posts, setPosts] = useState<PostType[]>();
   const [isFollowing, setIsFollowing] = useState(false);
+
   const isLoaded = profile !== undefined && posts !== undefined;
+
   const router = useRouter();
   const store = useBearStore();
 
@@ -87,11 +90,12 @@ export default function Comp({ params: { userId } }: Props) {
             <div className={styles.user_icon_wrap}>
               {
                 isLoaded ?
-                  <Image
+                  <ImageWithFallback
                     src={toStaticURL(`userIcon/${profile.userId}.webp`)}
-                    width={30}
-                    height={30}
-                    alt=""
+                    fallbackSrc="/defaultIcon.webp"
+                    width={25}
+                    height={25}
+                    alt=''
                   />
                   : ""
               }

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { User, Post } from '@app/_types';
 import CONFIG from '@root/config.json';
 import { toUriQuery } from '@app/_utils';
+import router from 'next/router';
 
 const apiConn = !CONFIG.IS_UI_DEBUG
 	? axios.create({
@@ -17,7 +18,22 @@ apiConn?.interceptors.response.use(
 			console.error(err);
 			alert('서버 통신 에러가 발생했습니다.');
 			return;
-		} else if (typeof err.response === 'undefined') {
+		} else if (err.response.data) {
+			console.error(err.response.data);
+
+			switch (err.response.data.errorCode) {
+				case 100: {
+					alert('로그인이 필요합니다.');
+					router.push('/signin');
+					break;
+				}
+				case 101: {
+					alert('이미 로그인 되어있습니다.');
+					router.push('/');
+					break;
+				}
+			}
+		} else {
 			console.error(err);
 			alert('알수없는 통신 에러가 발생했습니다.');
 		}
@@ -73,7 +89,7 @@ export const getSearch = async ({
 		userId,
 		dateFrom,
 		length,
-		keywords: keywords?.join('_'),
+		keywords: keywords?.join(' '),
 	});
 
 	return await apiConn?.get(`/post/search/${uriQuery}`).then((res) => res.data);
