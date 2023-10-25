@@ -44,7 +44,7 @@ export default function Comp() {
       <textarea value={content} onChange={(e) => { setContent(e.currentTarget.value) }}></textarea>
 
       <div className={styles.write_bottom}>
-        <button disabled={isDisabled} onClick={submitWrite}>완료하기</button>
+        <button className={isDisabled ? styles.disabled : ""} disabled={isDisabled} onClick={submitWrite}>완료하기</button>
       </div>
     </div>
   )

@@ -5,7 +5,7 @@ import { Post } from '@app/_types'
 import styles from "@styles/pages/post.module.scss"
 import HeartFilledSVG from '@assets/icon/heart_filled.svg';
 import HeartOutlineSVG from '@assets/icon/heart_outline.svg';
-import { getPost, postLike } from "@app/_api";
+import { getPost, postLike, postUnlike } from "@app/_api";
 import { intToCompact, timestampFromNow, toStaticURL } from "@app/_utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,12 +19,14 @@ type Props = {
 
 export default function Comp({ params: { postId } }: Props) {
   const [post, setPost] = useState<Post>();
+  const [isLike, setIsLike] = useState(false);
   const isLoaded = post !== undefined;
   const router = useRouter();
 
   const fetchData = useCallback(async () => {
     if (!postId) return;
 
+    // 처음에 유저 판별하고 좋아요 여부 보내주는 로직이 필요함
     getPost(parseInt(postId))
       .then(data => setPost(data))
       .catch(err => {
@@ -48,13 +50,20 @@ export default function Comp({ params: { postId } }: Props) {
   const submitLike = () => {
     if (!isLoaded) return;
 
-    postLike(post.postId)
+    if (!isLike) {
+      postLike(post.postId)
       .then(() => {
-
+        setIsLike(true)
       })
       .catch(err => {
 
       })
+    } else {
+      postUnlike(post.postId)
+        .then(() => {
+          setIsLike(false)
+        })
+    }
   }
 
   return (
@@ -84,7 +93,7 @@ export default function Comp({ params: { postId } }: Props) {
           <div className={styles.like_wrap}>
             <div className={styles.like_icon_wrap} onClick={submitLike}>
               {
-                false ? <HeartFilledSVG /> : <HeartOutlineSVG />
+                isLike ? <HeartFilledSVG /> : <HeartOutlineSVG />
               }
             </div>
             <span>{isLoaded ? intToCompact(post.likeCount) : ''}</span>
