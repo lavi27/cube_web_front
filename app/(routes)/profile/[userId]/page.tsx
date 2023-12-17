@@ -93,14 +93,14 @@ export default function Comp({ params: { userId } }: Props) {
                   <ImageWithFallback
                     src={toStaticURL(`userIcon/${profile.userId}.webp`)}
                     fallbackSrc="/defaultIcon.webp"
-                    width={25}
-                    height={25}
+                    width={30}
+                    height={30}
                     alt=''
                   />
                   : ""
               }
             </div>
-            <div className={styles.user_name}>{isLoaded ? profile.userName : ""}</div>
+            <div className={styles.user_name}>{isLoaded ? profile.userNickname : ""}</div>
           </div>
 
           {

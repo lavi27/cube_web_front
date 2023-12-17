@@ -6,7 +6,7 @@ import styles from "@styles/pages/post.module.scss"
 import HeartFilledSVG from '@assets/icon/heart_filled.svg';
 import HeartOutlineSVG from '@assets/icon/heart_outline.svg';
 import { getPost, postLike, postUnlike } from "@app/_api";
-import { intToCompact, timestampFromNow, toStaticURL } from "@app/_utils";
+import { bToI, intToCompact, timestampFromNow, toStaticURL } from "@app/_utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import ImageWithFallback from "@components/imageWithFallback";
@@ -19,16 +19,27 @@ type Props = {
 
 export default function Comp({ params: { postId } }: Props) {
   const [post, setPost] = useState<Post>();
-  const [isLike, setIsLike] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+  const [myLikeCount, setMyLikeCount] = useState(0);
+  const [isLikeDisabled, setisLikeDisabled] = useState(false);
+
   const isLoaded = post !== undefined;
   const router = useRouter();
 
   const fetchData = useCallback(async () => {
     if (!postId) return;
 
-    // 처음에 유저 판별하고 좋아요 여부 보내주는 로직이 필요함
     getPost(parseInt(postId))
-      .then(data => setPost(data))
+      .then(data => {
+        setPost(data);
+        setIsLiked(data.isLiked);
+
+        if (data.isLiked) {
+          setMyLikeCount(data.likeCount - 1);
+        } else {
+          setMyLikeCount(data.likeCount);
+        }
+      })
       .catch(err => {
         switch (err.errorCode) {
           case 1: {
@@ -48,20 +59,23 @@ export default function Comp({ params: { postId } }: Props) {
   }, [fetchData])
 
   const submitLike = () => {
-    if (!isLoaded) return;
+    if (!isLoaded || isLikeDisabled) return;
 
-    if (!isLike) {
+    setisLikeDisabled(true);
+
+    if (!isLiked) {
       postLike(post.postId)
-      .then(() => {
-        setIsLike(true)
-      })
-      .catch(err => {
-
-      })
+        .then(() => {
+          setIsLiked(true);
+          setisLikeDisabled(false);
+        })
+        .catch(err => {
+        })
     } else {
       postUnlike(post.postId)
         .then(() => {
-          setIsLike(false)
+          setIsLiked(false);
+          setisLikeDisabled(false);
         })
     }
   }
@@ -83,7 +97,7 @@ export default function Comp({ params: { postId } }: Props) {
                   />
                   : ''}
               </div>
-              <span className={styles.user_userName}>{isLoaded ? post.userName : ''}</span>
+              <span className={styles.user_userName}>{isLoaded ? post.userNickname : ''}</span>
             </div>
           </Link>
           <span className={styles.date}>{isLoaded ? timestampFromNow(post.createDate) : ''}</span>
@@ -92,11 +106,12 @@ export default function Comp({ params: { postId } }: Props) {
         <div className={styles.post_footer}>
           <div className={styles.like_wrap}>
             <div className={styles.like_icon_wrap} onClick={submitLike}>
-              {
-                isLike ? <HeartFilledSVG /> : <HeartOutlineSVG />
+              {isLoaded && isLiked ?
+                <HeartFilledSVG />
+                : <HeartOutlineSVG />
               }
             </div>
-            <span>{isLoaded ? intToCompact(post.likeCount) : ''}</span>
+            <span>{isLoaded ? intToCompact(myLikeCount + bToI(isLiked)) : ''}</span>
           </div>
         </div>
       </div>

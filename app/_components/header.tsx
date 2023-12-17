@@ -45,8 +45,8 @@ export default function Comp() {
       <h5>
         {
           !isSearchPath ?
-            "덕소고큐브"
-            : searchPathQuery
+            "덕소라이프"
+            : "검색: " + searchPathQuery
         }
       </h5>
       <div className={styles.buttons}>
@@ -62,7 +62,7 @@ export default function Comp() {
           />
         </div>
         {
-          !isSearchPath ?
+          !isSearchPath && false ?
             <Link href="./setting">
               <Image
                 src={"/icon/setting.svg"}

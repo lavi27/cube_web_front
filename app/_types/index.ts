@@ -1,6 +1,5 @@
 export interface User {
 	userId: number;
-	userName: string;
 	userNickname: string;
 	createDate: number;
 	followerCount: number;
@@ -14,6 +13,11 @@ export interface Post {
 	content: string;
 	createDate: number;
 	likeCount: number;
-	userName: string;
+	userNickname: string;
+	isLiked: boolean;
+}
+
+export interface Account {
+	userId: number;
 	userNickname: string;
 }

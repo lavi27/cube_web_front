@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User, Post } from '@app/_types';
+import { User, Post, Account } from '@app/_types';
 import CONFIG from '@root/config.json';
 import { toUriQuery } from '@app/_utils';
 import router from 'next/router';
@@ -18,7 +18,7 @@ apiConn?.interceptors.response.use(
 			console.error(err);
 			alert('서버 통신 에러가 발생했습니다.');
 			return;
-		} else if (err.response.data) {
+		} else if (err.response?.data) {
 			console.error(err.response.data);
 
 			switch (err.response.data.errorCode) {
@@ -43,7 +43,7 @@ apiConn?.interceptors.response.use(
 );
 
 //ANCHOR - Account
-export const getAccount = async (): Promise<number> => {
+export const getAccount = async (): Promise<Account> => {
 	return await apiConn?.get(`/account/`).then((res) => res.data);
 };
 

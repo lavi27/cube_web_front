@@ -11,7 +11,6 @@ export default function Comp() {
   const [navList, setNavList] = useState(
     [
       { dir: "/", dirName: "", name: "홈", iconSrc: "/icon/home" },
-      { dir: "/write", dirName: "write", name: "글쓰기", iconSrc: "/icon/write" },
       { dir: `/signin`, dirName: "signin", name: "로그인", iconSrc: "/icon/profile" },
     ]
   );
@@ -22,13 +21,13 @@ export default function Comp() {
 
   const fetchData = useCallback(() => {
     getAccount().then(res => {
-      const tmp = [...navList];
-      tmp[2] = { dir: `/profile/${res}`, dirName: "profile", name: "프로필", iconSrc: "/icon/profile" }
-
-      setUser(res, 0);
-      setNavList(tmp);
+      setUser(res);
+      setNavList([
+        { dir: "/", dirName: "", name: "홈", iconSrc: "/icon/home" },
+        { dir: "/write", dirName: "write", name: "글쓰기", iconSrc: "/icon/write" },
+        { dir: `/profile/${res.userId}`, dirName: "profile", name: "프로필", iconSrc: "/icon/profile" },
+      ]);
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setUser])
 
   useEffect(() => {

@@ -1,14 +1,17 @@
 .write_wrap {
   display: flex;
   flex-direction: column;
-  padding: 0px 10px;
+  gap: 10px;
+  padding: 12px 15px;
   box-sizing: border-box;
+  height: 100%;
 }
 
 .write_top {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 0px 5px;
 
   .user_icon_wrap {
     width: 25px;
@@ -33,16 +36,30 @@
 
 .write_wrap textarea {
   min-height: 150px;
+  border-radius: 5px;
+  border: 1px solid #aaa;
+  padding: 12px;
+  resize: none;
   // font-size: 18px;
 }
 
 .write_bottom {
+  margin-top: auto;
   padding: 10px 0px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
 
   button {
-    padding: 6px;
+    border: none;
+    text-align: center;
+    width: 100%;
+    padding: 15px 0px;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    background: rgb(46, 101, 229);
+    color: #eee;
   }
 }

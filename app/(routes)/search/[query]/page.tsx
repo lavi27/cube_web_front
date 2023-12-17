@@ -13,7 +13,6 @@ type Props = {
 
 export default function Comp({ params: { query } }: Props) {
   const [posts, setPosts] = useState<PostType[]>();
-  const isLoaded = posts !== undefined;
 
   const fetchData = useCallback(async () => {
 
@@ -40,12 +39,17 @@ export default function Comp({ params: { query } }: Props) {
   return (
     <div className={styles.home_wrap}>
       {
-        isLoaded ?
-          posts.map((post, index) => {
-            return (
-              <Post data={post} key={index} />
-            )
-          })
+        posts != undefined ?
+          posts.length != 0 ?
+
+            posts.map((post, index) => {
+              return (
+                <Post data={post} key={index} />
+              )
+            })
+
+            :
+            <span className={styles.noResult}>검색 결과가 없습니다.</span>
           :
           <Post data={null} skeleton />
       }

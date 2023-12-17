@@ -17,6 +17,10 @@ export const intToCompact = (number: number) => {
 	}).format(number);
 };
 
+export const bToI = (bool: boolean) => {
+	return bool ? 1 : 0;
+};
+
 export const toStaticURL = (url: string) => {
 	return `${CONFIG.API_URL}/static/${url}`;
 };
