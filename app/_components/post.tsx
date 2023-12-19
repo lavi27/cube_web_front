@@ -80,7 +80,7 @@ export default function Comp({ data, skeleton }: { data: Post | null, skeleton?:
       <div className={styles.post_content}>{isLoaded ? data.content : ""}</div>
       <div className={styles.post_footer}>
         <div className={styles.like_wrap}>
-          <div className={styles.like_icon_wrap} onClick={(e) => submitLike}>
+          <div className={`${styles.like_icon_wrap} ${isLoaded && isLiked ? styles.highlight : ""}`} onClick={(e) => submitLike}>
             {isLoaded && isLiked ?
               <HeartFilledSVG />
               : <HeartOutlineSVG />

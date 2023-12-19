@@ -105,7 +105,7 @@ export default function Comp({ params: { postId } }: Props) {
         <div className={styles.post_content}>{isLoaded ? post.content : ''}</div>
         <div className={styles.post_footer}>
           <div className={styles.like_wrap}>
-            <div className={styles.like_icon_wrap} onClick={submitLike}>
+            <div className={`${styles.like_icon_wrap} ${isLoaded && isLiked ? styles.highlight : ''}`} onClick={submitLike}>
               {isLoaded && isLiked ?
                 <HeartFilledSVG />
                 : <HeartOutlineSVG />
