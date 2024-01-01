@@ -21,12 +21,12 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            cd ~/github/cube_web_front \
-            git pull origin master \
-            npm ci \
-            npm run build \
-            pm2 delete cube-front \
-            pm2 start "npm run start" --name cube-front \
+            cd ~/github/cube_web_front
+            git pull origin master
+            npm ci
+            npm run build
+            pm2 delete cube-front
+            pm2 start "npm run start" --name cube-front
             sudo systemctl reload nginx
       # - uses: actions/setup-node@v3
       #   with:
