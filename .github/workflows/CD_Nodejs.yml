@@ -1,0 +1,44 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
+
+name: CD Node.js
+
+on:
+  push:
+    branches: ['master']
+
+jobs:
+  CI_CD:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Docker build & push
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPONAME }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPONAME }}
+      
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            docker ps -a
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPONAME }}
+            docker run -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPONAME }}
+            sudo systemctl reload nginx
+          #   export NVM_DIR=~/.nvm
+          #   source ~/.nvm/nvm.sh
+          #   npm --help
+          #   sudo ln -s "$NVM_DIR/versions/node/v20.10.0/bin/pm2" "/usr/local/bin/pm2"
+          #   cd ~/github/cube_web_front
+          #   git pull origin master
+          #   npm ci
+          #   npm run build
+          #   pm2 delete cube-front
+          #   pm2 start "npm run start" --name cube-front
+      
