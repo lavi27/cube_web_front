@@ -21,6 +21,10 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            npm --help
+            sudo ln -s "$NVM_DIR/versions/node/v20.10.0/bin/pm2" "/usr/local/bin/pm2"
             cd ~/github/cube_web_front
             git pull origin master
             npm ci
